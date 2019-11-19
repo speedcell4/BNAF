@@ -1,18 +1,14 @@
 import numpy as np
 
 
-
 class MINIBOONE:
-
     class Data:
 
         def __init__(self, data):
-
             self.x = data.astype(np.float32)
             self.N = self.x.shape[0]
 
     def __init__(self, file):
-        
         trn, val, tst = load_data_normalised(file)
 
         self.trn = self.Data(trn)
@@ -55,7 +51,6 @@ def load_data(root_path):
 
 
 def load_data_normalised(root_path):
-
     data_train, data_validate, data_test = load_data(root_path)
     data = np.vstack((data_train, data_validate))
     mu = data.mean(axis=0)

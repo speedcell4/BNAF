@@ -1,11 +1,10 @@
-import torch
-import sklearn
 import numpy as np
+import torch
+
 
 def sample2d(data, batch_size=200):
-
     rng = np.random.RandomState()
-    
+
     if data == '8gaussians':
         scale = 4.
         centers = [(1, 0), (-1, 0), (0, 1), (0, -1), (1. / np.sqrt(2), 1. / np.sqrt(2)),
@@ -38,12 +37,12 @@ def sample2d(data, batch_size=200):
         x2_ = np.random.rand(batch_size) - np.random.randint(0, 2, batch_size) * 2
         x2 = x2_ + (np.floor(x1) % 2)
         return np.concatenate([x1[:, None], x2[:, None]], 1) * 2
-    
+
     else:
         raise RuntimeError
 
+
 def energy2d(data, z):
-    
     if data == 't1':
         return U1(z)
     elif data == 't2':
@@ -54,31 +53,38 @@ def energy2d(data, z):
         return U4(z)
     else:
         raise RuntimeError
-    
+
+
 def w1(z):
     return torch.sin(2 * np.pi * z[:, 0] / 4)
+
 
 def w2(z):
     return 3 * torch.exp(-0.5 * ((z[:, 0] - 1) / 0.6) ** 2)
 
+
 def w3(z):
     return 3 * torch.sigmoid((z[:, 0] - 1) / 0.3)
-    
+
+
 def U1(z):
     z_norm = torch.norm(z, 2, 1)
     add1 = 0.5 * ((z_norm - 2) / 0.4) ** 2
-    add2 = - torch.log(torch.exp(-0.5 * ((z[:, 0] - 2) / 0.6) ** 2) +\
+    add2 = - torch.log(torch.exp(-0.5 * ((z[:, 0] - 2) / 0.6) ** 2) + \
                        torch.exp(-0.5 * ((z[:, 0] + 2) / 0.6) ** 2) + 1e-9)
-    
+
     return add1 + add2
+
 
 def U2(z):
     return 0.5 * ((z[:, 1] - w1(z)) / 0.4) ** 2
+
 
 def U3(z):
     in1 = torch.exp(-0.5 * ((z[:, 1] - w1(z)) / 0.35) ** 2)
     in2 = torch.exp(-0.5 * ((z[:, 1] - w1(z) + w2(z)) / 0.35) ** 2)
     return -torch.log(in1 + in2 + 1e-9)
+
 
 def U4(z):
     in1 = torch.exp(-0.5 * ((z[:, 1] - w1(z)) / 0.4) ** 2)

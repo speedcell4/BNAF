@@ -1,18 +1,14 @@
 import numpy as np
 
 
-
 class POWER:
-
     class Data:
 
         def __init__(self, data):
-
             self.x = data.astype(np.float32)
             self.N = self.x.shape[0]
 
     def __init__(self, file):
-
         trn, val, tst = load_data_normalised(file)
 
         self.trn = self.Data(trn)
@@ -27,7 +23,6 @@ def load_data(file):
 
 
 def load_data_split_with_noise(file):
-
     rng = np.random.RandomState(42)
 
     data = load_data(file)
@@ -61,7 +56,6 @@ def load_data_split_with_noise(file):
 
 
 def load_data_normalised(file):
-
     data_train, data_validate, data_test = load_data_split_with_noise(file)
     data = np.vstack((data_train, data_validate))
     mu = data.mean(axis=0)

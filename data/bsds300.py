@@ -1,5 +1,5 @@
-import numpy as np
 import h5py
+import numpy as np
 
 
 class BSDS300:
@@ -13,12 +13,10 @@ class BSDS300:
         """
 
         def __init__(self, data):
-
             self.x = data[:]
             self.N = self.x.shape[0]
 
     def __init__(self, file):
-
         # load dataset
         f = h5py.File(file, 'r')
 

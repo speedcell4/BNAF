@@ -1,7 +1,8 @@
-import pandas as pd
-import numpy as np
 from collections import Counter
 from os.path import join
+
+import numpy as np
+import pandas as pd
 
 
 class HEPMASS:
@@ -13,12 +14,10 @@ class HEPMASS:
     class Data:
 
         def __init__(self, data):
-
             self.x = data.astype(np.float32)
             self.N = self.x.shape[0]
 
     def __init__(self, path):
-
         trn, val, tst = load_data_no_discrete_normalised_as_array(path)
 
         self.trn = self.Data(trn)
@@ -29,7 +28,6 @@ class HEPMASS:
 
 
 def load_data(path):
-
     data_train = pd.read_csv(filepath_or_buffer=join(path, "1000_train.csv"), index_col=False)
     data_test = pd.read_csv(filepath_or_buffer=join(path, "1000_test.csv"), index_col=False)
 
@@ -54,7 +52,6 @@ def load_data_no_discrete(path):
 
 
 def load_data_no_discrete_normalised(path):
-
     data_train, data_test = load_data_no_discrete(path)
     mu = data_train.mean()
     s = data_train.std()
@@ -65,7 +62,6 @@ def load_data_no_discrete_normalised(path):
 
 
 def load_data_no_discrete_normalised_as_array(path):
-
     data_train, data_test = load_data_no_discrete_normalised(path)
     data_train, data_test = data_train.as_matrix(), data_test.as_matrix()
 
